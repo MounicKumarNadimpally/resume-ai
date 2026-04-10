@@ -5,12 +5,9 @@ from pathlib import Path
 from google import genai
 from dotenv import load_dotenv
 
-# Force load .env from same directory as this file
+# Load env at module level
 env_path = Path(__file__).resolve().parent / ".env"
 load_dotenv(dotenv_path=env_path, override=True)
-
-api_key = os.getenv("GEMINI_API_KEY")
-client = genai.Client(api_key=api_key)
 
 # ── Prompt builder ─────────────────────────────
 def build_prompt(resume_text: str, job_description: str) -> str:
@@ -35,6 +32,12 @@ def build_prompt(resume_text: str, job_description: str) -> str:
 # ── Call Gemini ────────────────────────────────
 async def analyze_with_gemini(resume_text: str, job_description: str) -> str:
     prompt = build_prompt(resume_text, job_description)
+
+    # Reload env and create fresh client every call
+    load_dotenv(dotenv_path=env_path, override=True)
+    api_key = os.getenv("GEMINI_API_KEY")
+    client = genai.Client(api_key=api_key)
+
     response = client.models.generate_content(
         model="gemini-2.5-flash-lite",
         contents=prompt
