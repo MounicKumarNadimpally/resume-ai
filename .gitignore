@@ -1,0 +1,22 @@
+# Environment
+.env
+backend/.env
+
+backend/prompt.py
+
+# Dependencies
+node_modules/
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+
+# Build output
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

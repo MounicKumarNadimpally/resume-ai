@@ -1,0 +1,43 @@
+/* ── Reset & Base ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #08080f;
+  --surface:   #10101c;
+  --card:      #16162a;
+  --border:    #2a2a45;
+  --primary:   #00e5b0;
+  --primary-d: #00b389;
+  --accent:    #8b5cf6;
+  --danger:    #ff4f6d;
+  --text:      #e4e4f0;
+  --muted:     #6a6a8a;
+  --radius:    14px;
+  --shadow:    0 8px 32px rgba(0,0,0,0.4);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Markdown output styles ───────────────────── */
+.md h1, .md h2, .md h3 { font-family: "Syne", sans-serif; margin: 1.4em 0 0.6em; }
+.md h3 { font-size: 1.05rem; color: var(--primary); }
+.md p  { margin-bottom: 0.8em; }
+.md ul, .md ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md li { margin-bottom: 0.35em; }
+.md strong { color: #fff; font-weight: 600; }
+.md code { background: var(--border); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+.md hr { border: none; border-top: 1px solid var(--border); margin: 1.5em 0; }
