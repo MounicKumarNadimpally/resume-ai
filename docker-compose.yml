@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+
+  # ── PostgreSQL Database ──────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: resumeai_db
+    restart: always
+    environment:
+      POSTGRES_USER: resumeai
+      POSTGRES_PASSWORD: resumeai
+      POSTGRES_DB: resumeai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resumeai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Python FastAPI Backend ───────────────────
+  backend:
+    build: ./backend
+    container_name: resumeai_backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://resumeai:resumeai@db:5432/resumeai
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+    volumes:
+      - ./backend/prompt.py:/app/prompt.py   # mount secret prompt file
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ── React Frontend ───────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: resumeai_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
